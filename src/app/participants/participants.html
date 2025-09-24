@@ -1,0 +1,142 @@
+<div class="participants-container">
+  <header class="header">
+    <button type="button" (click)="backToLottery()" class="btn-back">
+      ← Kembali ke Undian
+    </button>
+    <h1>📋 Daftar Peserta Undian</h1>
+    <p class="subtitle">Kelola peserta undian di sini</p>
+  </header>
+
+  <main class="main-content">
+    <!-- Add Participant Section -->
+    <section class="add-section">
+      <h2>Tambah Peserta Baru</h2>
+      <div class="input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="newParticipant"
+          placeholder="Masukkan nama peserta..."
+          class="participant-input"
+          (keyup.enter)="addParticipant()"
+        />
+        <button 
+          type="button" 
+          (click)="addParticipant()"
+          class="btn btn-primary"
+          [disabled]="!newParticipant().trim()"
+        >
+          Tambah
+        </button>
+      </div>
+    </section>
+
+    <!-- Google Sheets Import Section -->
+    <section class="import-section">
+      <h2>📊 Import dari Google Sheets</h2>
+      <div class="import-form">
+        <div class="url-input-group">
+          <label for="sheets-url">URL Google Sheets (CSV):</label>
+          <input 
+            id="sheets-url"
+            type="text" 
+            [(ngModel)]="googleSheetsUrl"
+            placeholder="https://docs.google.com/spreadsheets/d/e/..."
+            class="sheets-url-input"
+          />
+        </div>
+        
+        <div class="import-buttons">
+          <button 
+            type="button" 
+            (click)="importFromGoogleSheets()"
+            class="btn btn-import"
+            [disabled]="isImporting() || !googleSheetsUrl().trim()"
+          >
+            @if (isImporting()) {
+              <span class="spinner"></span>
+              Mengimport...
+            } @else {
+              📥 Tambah dari Google Sheets
+            }
+          </button>
+          
+          <button 
+            type="button" 
+            (click)="replaceWithGoogleSheets()"
+            class="btn btn-replace"
+            [disabled]="isImporting() || !googleSheetsUrl().trim()"
+          >
+            @if (isImporting()) {
+              <span class="spinner"></span>
+              Mengimport...
+            } @else {
+              🔄 Ganti dengan Google Sheets
+            }
+          </button>
+        </div>
+        
+        @if (importMessage()) {
+          <div class="import-message" 
+               [class.success]="importMessage()?.includes('✅')"
+               [class.error]="importMessage()?.includes('❌')"
+               [class.info]="importMessage()?.includes('ℹ️')">
+            {{ importMessage() }}
+          </div>
+        }
+        
+        <div class="import-help">
+          <p><strong>Cara menggunakan:</strong></p>
+          <ol>
+            <li>Buka Google Sheets Anda</li>
+            <li>Klik File → Publish to the web</li>
+            <li>Pilih "Comma-separated values (.csv)"</li>
+            <li>Copy URL dan paste di atas</li>
+            <li>Pastikan nama peserta ada di <strong>kolom nama</strong></li>
+            <li>Baris pertama akan dilewati (header)</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Participants List -->
+    <section class="participants-section">
+      <div class="section-header">
+        <h2>Daftar Peserta ({{ participants().length }})</h2>
+        @if (participants().length > 0) {
+          <button 
+            type="button" 
+            (click)="clearAllParticipants()"
+            class="btn btn-danger"
+          >
+            🗑️ Hapus Semua
+          </button>
+        }
+      </div>
+
+      @if (participants().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">👥</div>
+          <p>Belum ada peserta yang terdaftar</p>
+          <small>Tambahkan peserta baru menggunakan form di atas</small>
+        </div>
+      } @else {
+        <div class="participants-grid">
+          @for (participant of participants(); track participant; let i = $index) {
+            <div class="participant-card">
+              <div class="participant-number">{{ i + 1 }}</div>
+              <div class="participant-name">{{ participant }}</div>
+              <button 
+                type="button" 
+                (click)="removeParticipant(participant)"
+                class="btn-remove"
+                title="Hapus peserta"
+              >
+                ❌
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </main>
+</div>

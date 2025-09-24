@@ -1,0 +1,89 @@
+<div class="history-container">
+  <header class="header">
+    <button type="button" (click)="backToLottery()" class="btn-back">
+      ← Kembali ke Undian
+    </button>
+    <h1>🏆 Riwayat Pemenang Undian</h1>
+    <p class="subtitle">Lihat semua pemenang undian yang pernah diundi</p>
+  </header>
+
+  <main class="main-content">
+    <!-- Summary Stats -->
+    <section class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">{{ drawSessions().length }}</div>
+        <div class="stat-label">Total Sesi Undian</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ winners().length }}</div>
+        <div class="stat-label">Total Pemenang</div>
+      </div>
+    </section>
+
+    <!-- Draw Sessions History -->
+    <section class="sessions-section">
+      <div class="section-header">
+        <h2>📊 Riwayat Sesi Undian</h2>
+        @if (drawSessions().length > 0) {
+          <button 
+            type="button" 
+            (click)="clearHistory()"
+            class="btn btn-danger"
+          >
+            🗑️ Hapus Riwayat
+          </button>
+        }
+      </div>
+
+      @if (drawSessions().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">📝</div>
+          <p>Belum ada riwayat undian</p>
+          <small>Lakukan undian untuk melihat riwayat di sini</small>
+        </div>
+      } @else {
+        <div class="sessions-grid">
+          @for (session of sortedDrawSessions; track session.sessionId) {
+            <div class="session-card">
+              <div class="session-header">
+                <h3>Undian #{{ session.sessionId }}</h3>
+                <span class="session-date">{{ formatDate(session.timestamp) }}</span>
+              </div>
+              
+              <div class="winners-count">
+                {{ session.winners.length }} Pemenang
+              </div>
+              
+              <div class="winners-list">
+                @for (winner of session.winners; track winner; let i = $index) {
+                  <div class="winner-item">
+                    <span class="winner-position">{{ i + 1 }}.</span>
+                    <span class="winner-name">{{ winner }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- All Winners List -->
+    @if (winners().length > 0) {
+      <section class="all-winners-section">
+        <div class="section-header">
+          <h2>🎯 Semua Pemenang ({{ winners().length }})</h2>
+        </div>
+
+        <div class="all-winners-grid">
+          @for (winner of winners(); track winner; let i = $index) {
+            <div class="winner-badge">
+              <span class="badge-number">{{ i + 1 }}</span>
+              <span class="badge-name">{{ winner }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </main>
+</div>

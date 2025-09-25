@@ -1,0 +1,187 @@
+// Layout styles for the main container and sections
+// Layout and Base Styles
+@use 'variables' as *;
+
+.lottery-container {
+  min-height: 100vh;
+  font-family: $font-family;
+  position: relative;
+  overflow: hidden;
+  background: $gradient-primary;
+  
+  &.has-custom-bg {
+    background: transparent;
+  }
+}
+
+// Background image handling
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: var(--z-background);
+  animation: gifFadeIn var(--transition-slow) ease-in-out;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: var(--z-overlay);
+  }
+}
+
+@keyframes gifFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Background utility classes
+.bg-image-contain { background-size: contain !important; }
+.bg-image-stretch { background-size: 100% 100% !important; }
+.bg-image-cover { background-size: cover !important; }
+.bg-image-auto { background-size: auto !important; }
+.bg-image-center { background-position: center center !important; }
+.bg-image-top-center { background-position: top center !important; }
+.bg-image-bottom-center { background-position: center bottom !important; }
+.bg-image-left-center { background-position: left center !important; }
+.bg-image-right-center { background-position: right center !important; }
+
+// Overlay variants
+.bg-image-light-overlay::after { background: rgba(0, 0, 0, 0.1) !important; }
+.bg-image-medium-overlay::after { background: rgba(0, 0, 0, 0.3) !important; }
+.bg-image-dark-overlay::after { background: rgba(0, 0, 0, 0.6) !important; }
+.bg-image-no-overlay::after { display: none !important; }
+
+// Header layout
+.header {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  position: relative;
+  z-index: var(--z-header);
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      gap: var(--spacing-lg);
+      text-align: center;
+    }
+  }
+  
+  .header-left {
+    flex: 1;
+    text-align: left;
+    
+    @media (max-width: 1024px) {
+      text-align: center;
+    }
+  }
+  
+  .header-right {
+    flex: 1;
+    text-align: right;
+    
+    @media (max-width: 1024px) {
+      text-align: center;
+    }
+  }
+}
+
+// Main content area
+.main-content {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  position: relative;
+  z-index: var(--z-base);
+  min-height: calc(100vh - 200px);
+}
+
+// Section base styles
+.section {
+  @include glassmorphism;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  
+  @media (max-width: 768px) {
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+// Grid layouts
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+// Fullscreen mode adjustments
+:fullscreen .lottery-container,
+:-webkit-full-screen .lottery-container,
+:-moz-full-screen .lottery-container,
+:-ms-fullscreen .lottery-container {
+  height: 100vh;
+  
+  .header {
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
+    
+    h1 {
+      @include responsive-text(var(--font-2xl), var(--font-3xl), var(--font-4xl));
+    }
+    
+    .nav-menu {
+      gap: var(--spacing-sm);
+      
+      .btn-nav {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-sm);
+      }
+    }
+  }
+  
+  .main-content {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-md);
+  }
+  
+  .draw-section {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+}

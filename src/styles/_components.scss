@@ -1,0 +1,250 @@
+// Component-specific styles for the lottery drawing section
+@use 'variables' as *;
+
+.draw-section {
+  @include glassmorphism;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xxl);
+  text-align: center;
+  position: relative;
+  z-index: var(--z-base);
+  
+  @media (max-width: 768px) {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+  
+  .winner-display {
+    margin: var(--spacing-xl) 0;
+    
+    .winner-name {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: bold;
+      color: var(--primary-yellow);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: var(--spacing-md);
+      animation: glow 2s ease-in-out infinite alternate;
+      word-break: break-word;
+    }
+    
+    .winner-details {
+      font-size: var(--font-lg);
+      color: var(--white);
+      opacity: 0.9;
+    }
+  }
+  
+  .draw-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--spacing-xl);
+    
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px var(--primary-yellow), 0 0 20px var(--primary-yellow), 0 0 30px var(--primary-yellow);
+  }
+  to {
+    text-shadow: 0 0 20px var(--primary-yellow), 0 0 30px var(--primary-yellow), 0 0 40px var(--primary-yellow);
+  }
+}
+
+// Participants section
+.participants-section {
+  .participants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .participant-item {
+    @include glassmorphism;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: var(--transition-normal);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .participant-name {
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .participant-id {
+      font-size: var(--font-sm);
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+// Winners history section
+.winners-section {
+  .winners-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .winner-item {
+    @include glassmorphism;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    @media (max-width: 640px) {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .winner-info {
+      .winner-name {
+        font-weight: 600;
+        color: var(--primary-yellow);
+        margin-bottom: var(--spacing-xs);
+      }
+      
+      .winner-date {
+        font-size: var(--font-sm);
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+    
+    .winner-position {
+      background: var(--primary-green);
+      color: var(--white);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: var(--font-sm);
+    }
+  }
+}
+
+// Configuration section
+.configuration-section {
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .config-group {
+    @include glassmorphism;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    
+    h3 {
+      color: var(--primary-yellow);
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-xl);
+    }
+    
+    .config-item {
+      margin-bottom: var(--spacing-lg);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Statistics section
+.statistics-section {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .stat-card {
+    @include glassmorphism;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    
+    .stat-number {
+      font-size: var(--font-3xl);
+      font-weight: bold;
+      color: var(--primary-yellow);
+      display: block;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .stat-label {
+      color: var(--white);
+      font-size: var(--font-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Animation classes
+.fade-in {
+  animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.slide-up {
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+.bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-lottery-main',
   imports: [CommonModule, FormsModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  // styleUrl: './app.scss', // Removed - using global styles instead
   standalone: true,
 })
 export class App {
@@ -493,12 +493,12 @@ export class App {
     const file = input.files?.[0];
 
     console.log('File selected:', file);
-    
+
     if (file) {
       console.log('File details:', {
         name: file.name,
         type: file.type,
-        size: file.size
+        size: file.size,
       });
     }
 
@@ -533,7 +533,7 @@ export class App {
       setTimeout(() => {
         // Update background image
         this.updateBackgroundImage(objectUrl);
-        
+
         // Check if the image loads properly
         this.checkCustomBackground();
       }, 100);
@@ -569,11 +569,11 @@ export class App {
     // Try multiple times if element not found initially
     let attempts = 0;
     const maxAttempts = 5;
-    
+
     const tryUpdate = () => {
       const imageElement = document.querySelector('.bg-image') as HTMLElement;
       console.log(`Attempt ${attempts + 1}: Looking for .bg-image element:`, imageElement);
-      
+
       if (imageElement) {
         if (imagePath.startsWith('blob:')) {
           imageElement.style.backgroundImage = `url("${imagePath}")`;
@@ -583,7 +583,7 @@ export class App {
         imageElement.style.backgroundSize = 'cover';
         imageElement.style.backgroundPosition = 'top center';
         imageElement.style.backgroundRepeat = 'no-repeat';
-        
+
         console.log(`Background image updated to: ${imagePath}`);
         console.log('Element background image style:', imageElement.style.backgroundImage);
 
@@ -593,14 +593,16 @@ export class App {
       } else {
         attempts++;
         if (attempts < maxAttempts) {
-          console.log(`Element not found, retrying in 100ms... (attempt ${attempts}/${maxAttempts})`);
+          console.log(
+            `Element not found, retrying in 100ms... (attempt ${attempts}/${maxAttempts})`
+          );
           setTimeout(tryUpdate, 100);
         } else {
           console.error('Could not find .bg-image element after maximum attempts');
         }
       }
     };
-    
+
     tryUpdate();
   }
 

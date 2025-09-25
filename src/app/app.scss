@@ -1,7 +1,2 @@
-// Import modular SCSS files using modern @use syntax
-@use '../styles/variables' as *;
-@use '../styles/layout';
-@use '../styles/buttons';
-@use '../styles/forms';
-@use '../styles/components';
-@use '../styles/utilities';
+// Component-specific styles (if needed)
+// Global styles are now imported in src/styles.scss
